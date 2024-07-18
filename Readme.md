@@ -67,7 +67,7 @@ The server will start on http://localhost:8080.
     Pokemon not found
     ```
 3. Add a Pokémon to Favorites
-
+    ```
     URL: /favorites
     Method: POST
     Request Body:
@@ -77,7 +77,7 @@ The server will start on http://localhost:8080.
     }
 
     Response: 201 Created
-
+    ```
 ## Project Structure
 ``` plaintext
 .
