@@ -1,6 +1,9 @@
+package main
+
 import ( 
 	"net/http"
-	"fmt"
+	"sync"
+    "encoding/json"
 	"strings"
 )
 
@@ -15,7 +18,17 @@ var (
 // GET
 func getPokemonHandler(w http.ResponseWriter, r *http.Request) {
 	name := strings.TrimPrefix(r.URL.Path, "/pokemon/")
-	pokemon, exists := pokedex[name]
+	if name ==""{
+		var allPokemons []Pokemon
+		for _, value := range POKEDEX {
+			// _ is the key, value the value of the """dict"""
+			allPokemons = append(allPokemons, value)
+		}
+		json.NewEncoder(w).Encode(allPokemons)
+		return
+	}
+
+	pokemon, exists := POKEDEX[name]
 	if !exists {
 		http.Error(w, "Pokemon not found", http.StatusNotFound)
 		return
@@ -24,16 +37,16 @@ func getPokemonHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 // Post
-func postFavoriteHandler(w http.ResponseWriter, r *https.Request) {
-	var pokemon = Pokemon
+func postFavoriteHandler(w http.ResponseWriter, r *http.Request) {
+	var pokemon Pokemon
 	// Decodes the JSON body of the request into the pokemon variable.
 	if err := json.NewDecoder(r.Body).Decode(&pokemon); err != nil {
 		http.Error(w, "Invalid request payload", http.StatusBadRequest)
 		return
 	}
-	
+
 	mu.Lock()
-	favorites[pokemon.Name = true]
+	favorites[pokemon.Name] = true
 	mu.Unlock()
 	w.WriteHeader(http.StatusCreated)
 }
