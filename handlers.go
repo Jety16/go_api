@@ -50,3 +50,16 @@ func postFavoriteHandler(w http.ResponseWriter, r *http.Request) {
 	mu.Unlock()
 	w.WriteHeader(http.StatusCreated)
 }
+
+// Put
+func putDeleteFavoriteHandler(w http.ResponseWriter, r *http.Request) {
+	var pokemon Pokemon
+	// Decode the JSON body of the request into the pokemon variable.
+	if err := json.NewDecoder(r.Body).Decode(&pokemon); err != nil {
+		http.Error(w, "Invalid request payload", http.StatusBadRequest)
+	}
+	mu.Lock()
+	favorites[pokemon.Name] = False
+	mu.Unlock()
+	w.WriteHeader(http)
+}

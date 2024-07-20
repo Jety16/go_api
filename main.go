@@ -9,8 +9,7 @@ func main() {
     http.HandleFunc("/pokemon/", getPokemonHandler)
     http.HandleFunc("/favorites", func(w http.ResponseWriter, r *http.Request) {
         if r.Method == http.MethodPut {
-            //putFavoriteHandler(w, r)
-			fmt.Println("Not implemented lol")
+            putFavoriteHandler(w, r)
         } else if r.Method == http.MethodPost {
             postFavoriteHandler(w, r)
         } else {
